@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Scheduler from './components/Scheduler';
+import Signup from './components/Signup';
+import Login from './components/Login';
+import Loader from './components/Loader';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 2000); 
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    return (
+        <Router>
+            <div className="App">
+                {loading ? (
+                    <Loader />
+                ) : (
+                    <Routes>
+                        <Route path="/" element={<Signup />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/scheduler" element={<Scheduler />} />
+                    </Routes>
+                )}
+            </div>
+        </Router>
+    );
 }
 
 export default App;
